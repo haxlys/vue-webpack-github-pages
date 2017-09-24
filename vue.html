@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>02-03</title>
+	<title>I love Vue</title>
 	<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
 </head>
 <style>
@@ -58,85 +58,135 @@
 	<div id="mainContentContainer"></div>
 
   <div id="template">
-    <div id="Directive" class="flex-container">
-      <div class="flex-item title">v-text: v-html: </div>
-      <div class="flex-item desc">DOM 요소의 컨텐츠를 변경한다.</div>
-
-      <div class="flex-item title">v-bind: </div>
-      <div class="flex-item desc">DOM 요소의 속성을 변경한다.<br/>
-      약어로 : 를 사용한다.</div>
-
-      <div class="flex-item title">v-show: v-:if v-else v-else-if</div>
-      <div class="flex-item desc">Vue data 속성에 따라 렌더링 여부를 결정하는 기능<br/>
-        show와 if의 차이는 렌더링의 여부<br/>
-        show는 렌더링 하되 조건에 따라서 display:none을 갖는다.<br/>
-        자주 판정된다면 show를 사용해서 리플로우 리페인트를 피하는게 좋다.
-      </div>
-
-      <div class="flex-item title">v-for: </div>
-      <div class="flex-item desc">반복 렌더링 기능 <br/>
-        v-for="(value, index) in array" <br/>
-        v-for="(value, key, index) in object" <br/>
-        v-if 보다 v-for가 더 우선순위가 높아서 for 실행 후 if 판정이 실행된다.<br/>
-        &lt;template v-for="">&lt;/template> 를 이용해서 직접 DOM 요소에 for를 적용하지 않고 사용할 수도 있다.<br/>
-        &lt;template v-for="value in list" v-bind:key="value.primaryKey">&lt;/template>
-        Vue는 for로 렌더할 때 렌더되는 DOM 요소에 key 속성을 data의 키값으로 바인딩 시키는 것을 권장한다. for로 렌더된 DOM의 data가 변경될 경우 DOM을 조작하거나 다시 그리지 않고 data만 변경시키기 때문이다.
-        이는 속도면에서 유리하다.
-      </div>
-
-      <div class="flex-item title">v-pre: </div>
-      <div class="flex-item desc">컴파일을 수행하지 않음</div>
-
-      <div class="flex-item title">v-once: </div>
-      <div class="flex-item desc">컴파일을 한번만 수행<br/>
-        자식 요소들도 영향을 받음
-      </div>
-
-      <div class="flex-item title">v-cloak: </div>
-      <div class="flex-item desc">컴파일 되지 않은 템플릿을 나타나지 않도록 해줌<br/>
-        일시적으로 보이는 콧수염 표현식을 해결해줌
-      </div>
+    <div id="Directive">
+      <h3 class="center">DOM 요소들을 렌더하는데 도움을 주는 지시어</h3>
+      <div class="flex-container">
       
+        <div class="flex-item title">v-text: v-html: </div>
+        <div class="flex-item desc">DOM 요소의 컨텐츠를 변경한다.</div>
+
+        <div class="flex-item title">v-bind: </div>
+        <div class="flex-item desc">DOM 요소의 속성을 변경한다.<br/>
+        약어로 : 를 사용한다.</div>
+
+        <div class="flex-item title">v-show: v-:if v-else v-else-if</div>
+        <div class="flex-item desc">Vue data 속성에 따라 렌더링 여부를 결정하는 기능<br/>
+          show와 if의 차이는 렌더링의 여부<br/>
+          show는 렌더링 하되 조건에 따라서 display:none을 갖는다.<br/>
+          자주 판정된다면 show를 사용해서 리플로우 리페인트를 피하는게 좋다.
+        </div>
+
+        <div class="flex-item title">v-for: </div>
+        <div class="flex-item desc">반복 렌더링 기능 <br/>
+          v-for="(value, index) in array" <br/>
+          v-for="(value, key, index) in object" <br/>
+          v-if 보다 v-for가 더 우선순위가 높아서 for 실행 후 if 판정이 실행된다.<br/>
+          &lt;template v-for="">&lt;/template> 를 이용해서 직접 DOM 요소에 for를 적용하지 않고 사용할 수도 있다.<br/>
+          &lt;template v-for="value in list" v-bind:key="value.primaryKey">&lt;/template>
+          Vue는 for로 렌더할 때 렌더되는 DOM 요소에 key 속성을 data의 키값으로 바인딩 시키는 것을 권장한다. for로 렌더된 DOM의 data가 변경될 경우 DOM을 조작하거나 다시 그리지 않고 data만 변경시키기 때문이다.
+          이는 속도면에서 유리하다.
+        </div>
+
+        <div class="flex-item title">v-pre: </div>
+        <div class="flex-item desc">컴파일을 수행하지 않음</div>
+
+        <div class="flex-item title">v-once: </div>
+        <div class="flex-item desc">컴파일을 한번만 수행<br/>
+          자식 요소들도 영향을 받음
+        </div>
+
+        <div class="flex-item title">v-cloak: </div>
+        <div class="flex-item desc">컴파일 되지 않은 템플릿을 나타나지 않도록 해줌<br/>
+          일시적으로 보이는 콧수염 표현식을 해결해줌
+        </div>
+      </div>
     </div>
 
-    <div id="VueInstance" class="flex-container">
-      <div class="flex-item title">data</div>
-      <div class="flex-item desc">프록시를 이용해서 처리<br/> vm.$data.name과 같이 접근 가능</div>
-      
-      <div class="flex-item title">el</div>
-      <div class="flex-item desc"><pre>Vue 인스턴스에 연결할 HTML DOM요소를 지정
-여러 요소를 지정할 수 없음
-class로 여러개 지정할 수 없으며 첫번째 요소만 지정됨</pre>
-      </div>
-      
-      <div class="flex-item title">computed</div>
-      <div class="flex-item desc" v-pre>
-        <pre>계산형 속성으로 미리 선계산됨
-게터 세터 적용가능
-data: {
-  cnt: 0,
-}
-computed: {
-  count: {
-    get: function () {
-      return this.cnt + "개";
-    },
-    set: function (cnt) {
-      this.cnt = ++cnt;
+    <div id="VueInstance">
+      <h3 class="center">Vue 인스턴스 옵션들</h3>
+      <div class="flex-container">
+        <div class="flex-item title">data</div>
+        <div class="flex-item desc">프록시를 이용해서 처리<br/> vm.$data.name과 같이 접근 가능</div>
+        
+        <div class="flex-item title">el</div>
+        <div class="flex-item desc"><pre>Vue 인스턴스에 연결할 HTML DOM요소를 지정
+  여러 요소를 지정할 수 없음
+  class로 여러개 지정할 수 없으며 첫번째 요소만 지정됨</pre>
+        </div>
+        
+        <div class="flex-item title">computed</div>
+        <div class="flex-item desc" v-pre>
+          <pre>계산된 속성으로 미리 선계산됨
+  계산되어졌다는 computed 과거형에 주목해야함.
+  함수의 실행이 아닌 이미 실행된 함수의 return 값에 접근하는 것과 같다.
+  의존하고 있는 속성값이 변경되면 다시 평가(실행)된다.
+  게터 세터 적용가능
+  data: {
+    cnt: 0,
+  }
+  computed: {
+    count: {
+      get: function () {
+        return this.cnt + "개";
+      },
+      set: function (cnt) {
+        this.cnt = ++cnt;
+      }
     }
   }
-}
-        </pre>
+          </pre>
+        </div>
+        
+        <div class="flex-item title">methods</div>
+        <div class="flex-item desc" v-pre>
+        vue 인스턴스, 디렉티브 표현식, 콧수열 표현식 사용할 수 있다.
+        화살표 함수를 사용해서는 안된다.
+        화살표 함수에서 this는 Vue 인스턴스가 아닌 전역 객체를 가리키기 때문이다.
+        따라서 내부 데이터에 접근할 수 없다.
+        </div>
+        
+        <div class="flex-item title">watch</div>
+        <div class="flex-item desc" v-pre>
+        Vue data의 속성 이름을 함수의 watch 함수의 이름으로 등록하면 해당 data 값이 변경될 때마다 함수가 실행되어진다.
+        함수는 변경된 값을 인자로 받는다.
+        watch는 속성 하나에 대한 변경값을 감시한다면
+        computed는 의존하는 모든 속성에 대한 변경값을 감시한다.
+        watch는 값을 리턴하지 않아도 될 때, 즉 비동기 처리에 적합
+        computed는 리턴된 값을 사용해야 할 경우, 즉 동기 처리에 적합
+        </div>
       </div>
-
-      
-      
-      <div class="flex-item title">methods</div>
-      <div class="flex-item desc" v-pre>
-      
-      </div>
-
     </div>
+
+    <div id="Hook">
+      <h3 class="center">라이프 사이클 중간 중간 실행할 수 있는 Hook</h3>
+      <div @click="image = !image">이미지 보기</div>
+      <img v-show="image" src="./images/vueLifeCycle.jpg" alt="라이프사이클" width="800px">
+      <div class="flex-container">
+        <div class="flex-item title">beforeCreate</div>
+        <div class="flex-item desc" v-pre>Vue 인스턴스가 생성되고 데이터에 대한 관찰 기능 및 이벤트 감시자 설정 전에 호출</div>
+        
+        <div class="flex-item title">create</div>
+        <div class="flex-item desc" v-pre>Vue 인스턴스가 생선된 후 데이터에 대한 관찰 기능, 계산형 속성, 메서드, 감시자 설정이 완료된 후에 호출</div>
+        
+        <div class="flex-item title">beforeMount</div>
+        <div class="flex-item desc" v-pre>마운트가 시작되기 전에 호출</div>
+        
+        <div class="flex-item title">mounted</div>
+        <div class="flex-item desc" v-pre>el에 vue 인스턴스의 데이터가 마운트된 후 호출</div>
+        
+        <div class="flex-item title">beforeUpdate</div>
+        <div class="flex-item desc" v-pre>가상 DOM이 렌더링, 패치되기 전 데이터가 변경될 때 호출. 추가적인 상태 변경을 수행할 수 있으나 추가로 렌더링을 하지 않는다.</div>
+        
+        <div class="flex-item title">updated</div>
+        <div class="flex-item desc" v-pre>데이터 변경으로 가상 DOM이 다시 렌더링 되고 패치된 후 호출. 이 훅이 호출되었을 때는 이미 컴포넌트의 DOM이 업데이트된 상태. 그래서 DOM이 종속성이 있는 연산을 이 단계에서 수행할 수 있다.</div>
+        
+        <div class="flex-item title">beforeDestroy</div>
+        <div class="flex-item desc" v-pre>Vue 인스턴스가 제거되기 전 호출</div>
+        
+        <div class="flex-item title">destroyed</div>
+        <div class="flex-item desc" v-pre>Vue 인스턴스가 제거된 후에 호출됩니다. 이 훅이 호출될 때는 Vue 인스턴스의 모든 디렉티브의 바인딩이 해제되고 이벤트 연결도 모두 제거됩니다.</div>
+      </div>
+    </div>    
   </div>
 
 	<script type="text/javascript">
@@ -149,7 +199,14 @@ computed: {
     div.forEach(function (one) {
       leftMenuModel.menus.push({
         name: one.id,
-        renderedVm: new (Vue.extend({ template: document.querySelector("#" + one.id).outerHTML, }))().$mount(),
+        renderedVm: new (Vue.extend({ 
+          template: document.querySelector("#" + one.id).outerHTML, 
+          data: function() {
+            return {
+              image:false,
+            }
+          }
+        }))().$mount(),
       });
     })
 
@@ -157,7 +214,13 @@ computed: {
       el: '#leftSideContainer',
       data: leftMenuModel,
       created: function () {
-        this.contentChange(1)
+        this.contentChange(2)
+      },
+      computed: {
+        test1: function () { alert();
+          this.test = this.test;
+
+        }
       },
       methods: {
         contentChange: function (idx) {
