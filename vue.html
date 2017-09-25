@@ -9,7 +9,6 @@
 <style>
 	html, body {
 		height: 100%;
-		overflow: hidden;
 	}
   pre {
     font-family: initial;
@@ -44,6 +43,13 @@
   .flex-item.desc {
     width: 60%;
     text-align: left;
+  }
+  .list-title {
+    width: 100%;
+    list-style: none;
+    text-align: center;
+    color: crimson;
+    font-weight: bold;
   }
 </style>
 <body>
@@ -186,7 +192,148 @@
         <div class="flex-item title">destroyed</div>
         <div class="flex-item desc" v-pre>Vue 인스턴스가 제거된 후에 호출됩니다. 이 훅이 호출될 때는 Vue 인스턴스의 모든 디렉티브의 바인딩이 해제되고 이벤트 연결도 모두 제거됩니다.</div>
       </div>
-    </div>    
+    </div>
+    
+    <div id="Event">
+      <h3 class="center">라이프 사이클 중간 중간 실행할 수 있는 Hook</h3>
+      <div class="flex-container">
+        <div class="flex-item title">v-on:</div>
+        <div class="flex-item desc" v-pre>이벤트 디렉티브이며 약어는 @: 로 사용가능</div>
+        
+        <div class="flex-item title">이벤트 객체</div>
+        <div class="flex-item desc" v-pre>
+          <ul class="flex-container">
+            <li class="list-title">이벤트 객체의 주요 속성</li>
+
+            <li class="flex-item title">target</li>
+            <li class="flex-item desc">이벤트가 발생한 HTML 요소를 리턴함</li>
+            <li class="flex-item title">currentTarget</li>
+            <li class="flex-item desc">이벤트리스너가 이벤트를 발생시키는 HTML 요소를 리턴</li>
+            <li class="flex-item title">path</li>
+            <li class="flex-item desc">배열값, 이벤트 발생 HTML 요소로부터 document, window 객체로까지 거슬러 올라가는 경로를 나타냄</li>
+            <li class="flex-item title">bubbles</li>
+            <li class="flex-item desc">현재의 이벤트가 버블링을 일으키는 이벤트인지 여부를 리턴함</li>
+            <li class="flex-item title">cancleable</li>
+            <li class="flex-item desc">기본 이벤트를 방지할 수 있는지 여부를 리턴함</li>
+            <li class="flex-item title">defaultPrevented</li>
+            <li class="flex-item desc">기본 이벤트가 방지되었는지 여부를 나타냄</li>
+            <li class="flex-item title">eventPhase</li>
+            <li class="flex-item desc">이벤트 흐름 단계를 나타냄
+              <ol>
+                <li>포착(CAPTURING_PHASE)</li>
+                <li>이벤트 발생(AT_TARGET)</li>
+                <li>버블링(BUBLING_PHASE)</li>
+              </ol>
+            </li>
+            <li class="flex-item title">srcElement</li>
+            <li class="flex-item desc">IE에서 사용되던 속성으로 target과 동일한 속성</li>
+          </ul>
+        
+          <ul class="flex-container">
+            <li class="list-title">키보드 이벤트 관련 속성</li>
+
+            <li class="flex-item title">altKey</li>
+            <li class="flex-item desc">altKey 키 토글 여부를 나타냄(true/false)</li>
+            <li class="flex-item title">shiftKey</li>
+            <li class="flex-item desc">shiftKey 키 토글 여부를 나타냄(true/false)</li>
+            <li class="flex-item title">ctrlKey</li>
+            <li class="flex-item desc">ctrlKey 키 토글 여부를 나타냄(true/false)</li>
+            <li class="flex-item title">metaKey</li>
+            <li class="flex-item desc">Windows OS 에서는 window 키, Mac OS 에서는 Command 키 토글 여부를 나타냄(true/false)</li>
+            <li class="flex-item title">key</li>
+            <li class="flex-item desc">이벤트에 의해 나타나는 키의 값을 리턴함. 대소문자 구분함.</li>
+            <li class="flex-item title">code</li>
+            <li class="flex-item desc">이벤트를 발생시킨 키의 코드값을 리턴함.
+              ex) a를 눌렀을 때 "KeyA"를 리턴함
+              ex) shfit를 눌렀을 때 "Shift"를 리턴함
+            </li>
+            <li class="flex-item title">charCode</li>
+            <li class="flex-item desc">keypress 이벤트가 발생될 때 Unicode 캐릭터 코드를 리턴함</li>
+            <li class="flex-item title">location</li>
+            <li class="flex-item desc">디바이스에서의 키 위칫값. 일반 키보드는 이 값이 모두 0이므로 이용할 수 없음</li>
+          </ul>
+
+          <ul class="flex-container">
+            <li class="list-title">마우스 이벤트 관련 속성</li>
+
+            <li class="flex-item title">altKey, shiftKey, ctrlKey, metaKey</li>
+            <li class="flex-item desc">키보드와 동일</li>
+            <li class="flex-item title">button</li>
+            <li class="flex-item desc">이벤트를 발생시킨 마우스 버튼
+              <ol>
+                <li>0: 마우스 왼쪽 버튼</li>
+                <li>1: 마우스 휠</li>
+                <li>2: 마우스 오른쪽 버튼</li>
+              </ol>
+            </li>
+            <li class="flex-item title">buttons</li>
+            <li class="flex-item desc">
+              마우스 이벤트가 발생한 후에 눌러져 있는 마우스 버튼의 값을 리턴함, 아래 값의 조합으로 이루어짐
+              <ol>
+                <li>1: 마우스 왼쪽 버튼</li>
+                <li>2: 마우스 오른쪽 버튼</li>
+                <li>4: 마우스 휠</li>
+                <li>8: 4번째 마우스 버튼</li>
+                <li>16: 5번째 마우스 버튼</li>
+              </ol>
+              ex) 마우스의 오른쪽 버튼, 휠을 누르고 있는 상태에서 왼쪽 버튼을 클릭할 경우 이 값은 6(2+4)을 리턴함.
+            </li>
+            <li class="flex-item title">clientX, clientY</li>
+            <li class="flex-item desc">마우스 이벤트가 일어났을 때의 뷰포트(ViewPort) 영역상의 좌표, 이 좌표는 스크롤바를 내리더라도 좌푯값에 영향을 받지 않음</li>
+            <li class="flex-item title">layerX, layerY</li>
+            <li class="flex-item desc">마우스 이벤트가 발생한 HTML 요소 영역상에서의 좌표(IE이외의 브라우저에서 사용)</li>
+            <li class="flex-item title">offsetX, offsetY</li>
+            <li class="flex-item desc">마우스 이벤트가 발생한 HTML 요소 영역상에서의 좌표(IE 브라우저에서 사용)</li>            </li>
+            <li class="flex-item title">pageX, pageY</li>
+            <li class="flex-item desc">마우스 이벤트가 발생했을 때 HTML 문서(Document) 영역상의 좌표</li>
+            <li class="flex-item title">screeX, screenY</li>
+            <li class="flex-item desc">마우스 이벤트가 발생했을 때 모니터 영역상의 좌표</li>
+          </ul>
+        </div>
+
+        <div class="flex-item title">DOM 요소의 기본 이벤트</div>
+        <div class="flex-item desc" v-pre>a 같은 요소는 클릭할 경우 내장되어 있는 기본 이벤트가 호출된다.
+          <ul>
+            대표적인 기본 이벤트
+            <li>a</li>
+            <li>오른쪽 버튼의 컨텍스트 메뉴 ContextMenu</li>
+            <li>form 요소 내부의 submit 버튼</li>
+            <li>input type=text 요소에 키보드를 누르면 입력한 문자가 텍스트 박스에 나타나는 기능</li>
+          </ul>
+        </div>
+
+        <div class="flex-item title">기본 이벤트를 중지시키는 방법</div>
+        <div class="flex-item desc" v-pre>v-on:EVENT.prevent="method"</div>
+
+        <div class="flex-item title">이벤트 전파(버블링, 캡처링) 중지시키는 방법</div>
+        <div class="flex-item desc" v-pre>
+          <ul>
+            <li>v-on:EVENT.stop="method" 이벤트 전파를 중지</li>
+            <li>v-on:EVENT.capture="method" CAPTURING_PHASE 단계에서만 이벤트 발생</li>
+            <li>v-on:EVENT.self="method" RAISING_PHASE 단계에서만 이벤트 발생</li>
+          </ul>
+        </div>
+
+        <div class="flex-item title">once : 이벤트를 단 한번만 실행</div>
+        <div class="flex-item desc" v-pre>v-on:EVENT.once="method"</div>
+
+        <div class="flex-item title">keyup : 키보드 키코드를 이용한 메서드 실행</div>
+        <div class="flex-item desc" v-pre>
+          <ul>
+            <li> @keyup="method" method: function (e) { if(e.keyCode === 13) alert('hi') } </li>
+            <li> @keyup.13="method" method: function (e) { alert('hi') } </li>
+            <li> @keyup.enter="method" method: function (e) { alert('hi') } </li>
+            <li> 제공해주는 쉬운 별칭 : enter, tab delete, exc, space, up down left right ctrl alt shift meta</li>
+            <li> @keyup.ctrl.67="copy" Ctrl + C</li>
+            <li> 마우스 버튼 수식어: left, right, middle</li>
+          </ul>
+        </div>
+        
+        <div class="flex-item title"></div>
+        <div class="flex-item desc" v-pre>v-on:EVE
+      </div>
+    </div>
+
   </div>
 
 	<script type="text/javascript">
@@ -214,7 +361,7 @@
       el: '#leftSideContainer',
       data: leftMenuModel,
       created: function () {
-        this.contentChange(2)
+        this.contentChange(3)
       },
       computed: {
         test1: function () { alert();
