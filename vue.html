@@ -385,11 +385,234 @@ computed
 
     <div id="Component">
       <div class="flex-container">
-        <div class="flex-item title">인라인 스타일</div>
-        <div class="flex-item desc" v-pre>
+        <div class="flex-item title">컴포넌트 작성</div>
+        <div class="flex-item desc" v-pre><pre>Vue.component(tagname, options)
+tagname: 컴포넌트를 사용할 태그명
+options: 컴포넌트에서 렌더링할 templet등을 지정
+태그명은 가능하다면 케밥 표기명으로 지정하는게 좋다.
 
+&lt;script type="text/javascript">
+  Vue.component('hello-component', {
+    template: '&lt;div>hello world!!!&lt;/div>'
+  })
+&lt;/script>
+위의 컴포넌트 사용법을 아래와 같이 분리 시킬수 있다.
+
+template 태그 사용
+&lt;template id="helloTemplate">
+  &lt;div>hello world!!!&lt;/div>
+&lt;/template>
+&lt;script type="text/javascript">
+  Vue.component('hello-component', {
+    template: '#helloTemplate'
+  })
+&lt;/script>
+
+script 태그 사용
+&lt;script type="text/x-template" id="helloTemplate">
+  &lt;div>hello world!!!&lt;/div>
+&lt;/script>
+&lt;script type="text/javascript">
+  Vue.component('hello-component', {
+    template: '#helloTemplate'
+  })
+&lt;/script>
+</pre>
         </div>
 
+        <div class="flex-item title">
+          컴포넌트 작성시 주의 사항 1.</div>
+        <div class="flex-item desc" v-pre>
+<pre>아래와 같이 body 태그안의 dom 요소가 vue 컴포넌트가 아닌 html 요소(select) 중간에 끼어있다면 종종 렌더링되지 않는 현상을 경험할 수 있다.
+&lt;script type="text/javascript">
+Vue.component('option-component', {
+  template: '&lt;option>hello&lt;/option>'
+})
+&lt;/script>
+&lt;body>
+  &lt;div id="app">
+    &lt;select>
+      &lt;option-component>&lt;/option-component>
+      &lt;option-component>&lt;/option-component>
+    &lt;/select>
+  &lt;/div>
+&lt;/body>
+&lt;script type="text/javascript">
+  var v = new Vue({
+    el: '#app'
+  })
+&lt;/script>
+
+해결책: select 태그를 포함한 요소들을 script text/x-template 태그로 감싸줘서 컴포넌트화 시킨다.
+여기서 주의할 점은 &lt;template> 태그로 할 경우 위와 같이 렌더되지 않으므로 x-template로 사용해야 한다.
+또 다른 방법으로 단일 파일 컴포넌트 형식을 사용한다.
+&lt;script type="text/javascript">
+  Vue.component('option-component', {
+    template: '&lt;option>hello&lt;/option>'
+  })
+&lt;/script>
+&lt;script type="text/x-template" id="selectTemplate">
+  &lt;select>
+      &lt;option-component>&lt;/option-component>
+      &lt;option-component>&lt;/option-component>
+   &lt;/select>
+&lt;/script>
+&lt;script type="text/javascript">
+  Vue.component('select-component', {
+    template: '#selectTemplate'
+  })
+&lt;/script>
+&lt;body>
+  &lt;div id="app">
+    &lt;select-component>&lt;/select-component>
+  &lt;/div>
+&lt;/body>
+
+또 다른 방법으로 is 속성을 사용한다.
+&lt;option is='option-component'>&lt;/option>
+&lt;option is='option-component'>&lt;/option>
+          </pre>
+        </div>
+        <div class="flex-item title">컴포넌트 작성시 주의 사항 2.</div>
+        <div class="flex-item desc" v-pre><pre>
+template 문자열 안에서 루트 요소는 하나여야 한다.
+Vue.component('option-component', {
+  template: '&lt;option>hello&lt;/option>&lt;option>hello&lt;/option>'
+})
+위와 같이 2개 이상의 root 요소가 있어서는 안된다.
+          </pre>
+        </div>
+
+        <div class="flex-item title">컴포넌트에서의 data 옵션</div>
+        <div class="flex-item desc" v-pre><pre>
+컴포넌트에서 data 속성을 정의할 경우 function을 사용해서 return 값으로 data를 설정해야 한다.
+component마다 서로 다른 data를 유지해야 하기 때문이다.
+data: function () {
+  return {
+    name: 'jone'
+  }
+}
+          </pre>
+        </div>
+
+        <div class="flex-item title">props</div>
+        <div class="flex-item desc" v-pre><pre>
+&lt;template id="listTemplate">
+  &lt;li>{{message}}&lt;/li>
+&lt;/template>
+&lt;script type="text/javascript">
+  Vue.component('list-component', {
+    template: '#listTemplate',
+    props: ['myMessage']
+  })
+&lt;/script>
+&lt;body>
+  &lt;div id="app">
+    &lt;ul>
+      &lt;list-component my-message="Hello">&lt;/list-component>
+      &lt;list-component my-message="씬짜오">&lt;/list-component>
+      &lt;list-component my-message="니하오마">&lt;/list-component>
+    &lt;/ul>
+  &lt;/div>
+&lt;/body>
+
+위의 예제를 보면 컴포넌트의 옵션에 props가 보일텐데 
+배열에 등록된 문자열이 키값이 되어 컴포넌트 태그의 속성으로 값이 할당된다.
+data를 등록하는 것과 같다.
+
+컴포넌트 태그의 속성명을 정할 때 주의사항
+html 태그는 대소문자를 가리지 않기때문에 kebob-casing을 사용해야한다.
+컴포넌트 props에서는 camelCasing으로 표기한다.
+
+props 검증
+props값을 단순히 받기만 한다면 배열형태를 취하고 있어도 되지만
+검증을 하고 싶다면 객체형태로 만들고 값을 검증할 수 있다.
+props: {
+  message: { type: String, default: '안녕하세요' },
+}
+
+props 검증시 주의할 점
+값이 배열이 객체일 경우 default 속성 사용시 꼭 함수의 return값으로 기본값을 설정해줘야 한다.
+배열과 객체는 참조이기 때문에 값을 새로 할당하지 않으면 부모와 자식이 같은 데이터를 참조하기 때문이다.
+
+props로 값 전달시 숫자로 전달하기(props에 data 값을 전달하기)
+태그 속성으로 props 값을 전달할 때 숫자만 적으면 컴포넌트는 값을 문자열로 인식한다.
+이러한 문제를 해결하기 위해서 v-bind를 사용한다.
+&lt;comp :count="100">&lt;/comp>
+만약 v-bind에 문자열을 넣어준다면 변수명으로 인식하기 때문에
+문자열에 해당하는 data가 할당되어 있어야 한다.
+&lt;comp :count="name">&lt;/comp>
+data: {
+  name: '백만'
+}
+          </pre>
+        </div>
+        
+        <div class="flex-item title">event</div>
+        <div class="flex-item desc" v-pre><pre>
+child Component
+methods : {
+    clickEvent : function(e) {
+        this.$emit('timeclick', e.target.innerText, e.target.dataset.lang);
+    }
+}
+
+parent Component
+&lt;child-component v-for="s in buttons" v-bind:button-info="s"  v-on:timeclick="timeclickEvent">&lt;/child-component>
+ :
+methods : {
+    timeclickEvent : function(k, v) {
+        this.msg = k + ", " +v;
+    }
+}
+
+1. 부모 컴포넌트는 자식 태그에 v-on 디렉티브로 자식 컴포넌트의 수신 받을 메소드를 지정한다.
+v-on:timeclick="timeclickEvent"
+v-on:자식이 호출할 발신명="수신할 본인 객체의 methods"
+2. 자식 컴포넌트는 특정 이벤트에 this.$emit()을 통해서 부모에게 내용을 발신한다.
+첫번째 인자는 부모가 자식컴포넌트를 만들때 정의했던 v-on 디렉티브의 이름(발신명)
+두번째 인자부터 부모로 전달한 데이터를 작성해주면된다.
+3. 자식이 발신한(this.$emit()) 부모의 method가 데이터를 받아서 처리하게 된다.
+          </pre>
+        </div>
+        
+        <div class="flex-item title">이벤트 버스 객체를 이용한 통신</div>
+        <div class="flex-item desc" v-pre><pre>
+부모 자식 관계는 props와 event를 이용하면 된다.
+하지만 형제 관계에 있는 컴포넌트들끼리 정보를 전달하려면?
+
+비어 있는 Vue 인스턴스를 만들어 사용하면 된다.
+데이터를 저장할 필요가 있다면 데이터 옵션을 추가한다.
+단지 UI를 만들기 위한 template가 없는 인스턴스이다.
+
+이벤트 버스 객체
+var eventBus = new Vue();
+
+첫번째 자식 컴포넌트
+methods : {
+    clickEvent : function() {
+        var d = new Date();
+        var t = d.toLocaleTimeString() + " " + d.getMilliseconds() + "ms";
+        eventBus.$emit('click1', t);
+        this.currentTime = t;
+    }
+}
+
+두번째 자식 컴포넌트
+created : function() {
+    eventBus.$on('click1', this.child1Click);
+},
+methods : {
+    child1Click : function(time) {
+        this.timelist.push(time);
+    }
+}
+
+1. vue 인스턴스 생성
+2. created로 이벤트 수신 설정($on)을 해준다.(발신 전 미리 수신상태여야 하기 때문에 created 훅에서 수신 설정)
+3. 이벤트 발신 설정($emit)을 해준다.
+          </pre>
+        </div>
       </div>
     </div>
 
