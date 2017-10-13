@@ -615,7 +615,597 @@ methods : {
         </div>
       </div>
     </div>
+    <div id="ECMAScript2015">
+      <div class="flex-container">
+        <div class="flex-item title">let const</div>
+        <div class="flex-item desc" v-pre>
+          <pre>
+공통
+블록단위 스코프 지원
+중복 선언 허용하지 않음
 
+const
+상수로 값 변경을 허락하지 않음.
+선언만하고초기값을 주지 않으면 에러.
+
+var 키워드로 변수 할당하지 않는 것이 좋음.
+          </pre>
+        </div>
+      
+        <div class="flex-item title">기본 파라미터와 가변 파라미터</div>
+        <div class="flex-item desc" v-pre>
+          <pre>
+함수의 파라미터에 기본값 설정가능
+function add(a=0, b=0){ return a+b }
+
+함수의 파라미터를 동적으로 할당받을 수 있음(...배열명)
+var add = (a, b, ...rest) => a+b+rest.reduce((x,y) => x+=y)
+가변 파라미터명 앞에 ... 을 붙여준다.
+가변 파라미터는 배열형태이다.
+          </pre>
+        </div>
+        
+        <div class="flex-item title">구조분해 할당</div>
+        <div class="flex-item desc" v-pre>
+          <pre>
+let arr = [10,20,30,40];
+let [a1,a2,a3] = arr;
+console.log(a1, a2, a3);
+
+let p1 = {name:"홍길동", age:20, gender:"M"};
+let { name:n, age:a, gender } = p1;
+console.log(n,a,gender);
+
+함수에서도 사용 가능
+function addContact({name, phone, email="이메일 없음", age=0}) {
+  console.log("이름 : " + name);
+  console.log("전번 : " + phone);
+  console.log("이메일 : " + email);
+  console.log("나이 : " + age);
+}
+
+addContact({
+  name : "이몽룡", 
+  phone : "010-3434-8989"
+})
+          </pre>
+        </div>
+      
+        <div class="flex-item title">Arrow function</div>
+        <div class="flex-item desc" v-pre>
+          <pre>
+var add = function (a, b) { return a+b }
+let add = (a, b) => a+b
+
+function 키워드가 실행될 때마다 그 함수 context는 최상위 영역을 바라보게 된다.
+하지만 화살표 함수는 context가 갱신되지 않고 현재 스코프 context를 유지한다.
+function과 화살표 함수의 this는 다르다.
+          </pre>
+        </div>
+      
+        <div class="flex-item title">새로운 객체 리터럴</div>
+        <div class="flex-item desc" v-pre>
+          <pre>
+객체 속성과 변수명이 같다면 생략 가능.
+var name = "홍길동";
+var age = 20;
+var email = "gdhong@test.com";
+
+//var obj = { name: name, age: age, email: email };
+var obj = { name, age, email };
+
+객체 속성에 메소드 명을 생략할 수도 있음
+var obj = {
+  add(a, b) {
+    return a+b
+  }
+}
+          </pre>
+        </div>
+      
+        <div class="flex-item title">템플릿 리터럴</div>
+        <div class="flex-item desc" v-pre>
+          <pre>
+역따옴포(Backquote:`)로 묶여진 문자열에서 템플릿 대입문(${})을 이용해
+동적으로 문자열을 끼워넣어 구성할 수 있는 방법을 제공.
+수식 구문, 변수, 함수 호출 구문 등 대부분의 표현식을 사용할 수 있음.
+개행문자를 포함하여 여러 줄로 작성가능.
+          </pre>
+        </div>
+      
+        <div class="flex-item title">컬렉션</div>
+        <div class="flex-item desc" v-pre>
+          <pre>
+Set, Map, WeakSet, WeakMap
+
+Set
+중복 허용 안함
+합집합, 교집합 같은 다양한 집합 연산을 제공
+var john = new Set(["사과", "포도", "배"]);
+var susan = new Set(["파인애플", "키위", "배"]);
+
+//합집합 : Set { '사과', '포도', '배', '파인애플', '키위' }
+var union = new Set([...john.values(), ...susan.values()]);
+
+//교집합 : Set { '배' }
+var intersection = new Set([...john.values()].filter(e => susan.has(e)));
+
+//차집합 : Set { '사과', '포도' }
+var diff = new Set([...john.values()].filter(e => !susan.has(e)));
+
+Map
+키값쌍의 집합체이며, 키는 고유한 값이여야 한다.
+          </pre>
+        </div>
+
+        <div class="flex-item title">클래스</div>
+        <div class="flex-item desc" v-pre>
+          <pre>
+class Person {
+  // 생성자
+  constructor(name, age) {
+    // 자바와 다르게 인스턴스의 전역 변수를 constructor함수에서 this에 선언해야 한다.
+    this.name = name
+    this.age = age
+
+    // 모든 인스턴스가 공유할 변수(정적 변수)
+    Person.desc = "사람입니다."
+    if (Person.count) {
+      Person.count = 0
+    } else {
+      Person.count++
+    }
+  }
+
+  // 정적 메서드 Person.getPersonCount()
+  static getPersonCount() {
+    return Person.count++
+  }
+
+  // 인스턴스 메서드 new Person('jone', 20).toString()
+  toString() {
+    return `name=${this.name}, age=${this.age}`
+  }
+}
+
+상속도 지원한다.
+class Developer extends Person {}
+          </pre>
+        </div>
+
+        <div class="flex-item title">모듈</div>
+        <div class="flex-item desc" v-pre>
+          <pre>
+ES6에서 모듈을 js코드를 포함하고 있는 파일이라 간주해도 무방하다.
+코드 블록안에서 import, export 구문을 이용해서 모듈을 가져오거나 내보낼 수 있다.
+모듈 내부에서 선언된 모든 변수, 함수, 객체, 클래스는 지역적인 것으로 간주된다.
+따라서 재사용 가능한 모듈을 만들려면 반드시 외부로 공개하고자 하는 것을 export해야 한다.
+export된 모듈은 다른 모듈에서 import 구문으로 참조하여 사용할 수 있다.      
+export let a = 1000;
+export function f1() {}
+export { n1, n2 as othername }
+
+import시 주의할 점은 상대경로를 사용한다는 것이다.
+import하는 코드파일의 위치로 부터 경로를 추적한다.
+파일확장자 js는 생략가능.
+별칭 가능
+import { a as aa} from './utils/utility'
+
+export할 값이 여러개라면 객체표현식({n1,n2})으로 나열했지만
+만약 단일 값이라면 default 키워드로 export 후 import 할 수 있다.
+export default calc;
+import calc from ''./utils/utility';
+          </pre>
+        </div>
+
+        <div class="flex-item title">Promise</div>
+        <div class="flex-item desc" v-pre>
+          <pre>
+비동기 호출을 위한 역할
+비동기 호출시 발생하는 콜백함수의 중첩 문제를 해결함.
+Promise객체 생성시 전달하는 인자로 함수를 넘겨주는데
+이 함수의 인자들로 성공 실패 여부에 따른 후속조치를 할 수 있게 해준다.
+이 함수 2개의 인자역시 함수이다.
+첫번째 인자(resolve는 성공시 실행할 함수)
+두번째 인자(reject는 실패시 실행할 함수)
+var p = new Promise(function(resolve, reject) {
+    // 성공 실패 여부를 판별해줄 로직을 만든 후 
+    // 여부에 따른 resolve와 reject를 호출해주도록 해주면 된다.
+    setTimeout(function() {
+        var num = Math.round(Math.random()*20);
+        var isValid = num % 2;
+        if (isValid) { resolve(num); }
+        else { reject(num); }
+    }, 2000);
+});
+
+Promise 인스턴스 사용법
+p.then(function (num) {
+    console.log("홀수 : " + num);
+    return num // return 값이 다음 실행 함수의 인자로 넘어간다.
+}).then(function (num) {
+    console.log("홀수 : " + num);
+}).catch(function(num) {
+    console.log("짝수 : " + num);
+});
+          </pre>
+        </div>
+
+      </div>
+    </div>
+      
+    <div id="Webpack">
+      <div class="flex-container">
+        <div class="flex-item title">Webpack</div>
+        <div class="flex-item desc" v-pre>
+          <pre>
+많은 모듈을 html문서에 &lt;script>로 참조하는 것은 끔찍하며
+.vue 확장자 파일은.js가 아니므로 .js파일로 트랜스파일할 수 있어야 한다.
+Webpack은 모던 자바스크립트 애플레이케이션 개발을 위한 모듈 번들러.
+모듈과 모듈이 사용하는 정적 자원(css, image)들을 한데 묶어서 하나의 파일 또는 몇 개의 파일로 번들링(묶는작업)한다.
+
+장점
+초기 로딩 줄임
+정적 자원들까지 모듈화가 가능
+Babel, Typescript 등과 같은 트랜스파일러와 손쉽게 통합된다
+HMR(Hot Module Replacement)를 지원해서 코드가 수정될 때마다 자동으로 번들링을 수행하고 페이지가 갱신된다.
+다양한 로더 제공(번들링 하기 전 수행해야 할 전처리 기능 - es2015 트랜스파일링, css 전처리, image 변환 등)
+다양한 플러그인 제공(번들링 도중 특별한 단계의 작업을 추가할 때 사용 - UglifyJsPlugin 등)
+          </pre>
+        </div>
+
+        <div class="flex-item title">Webpack 구성</div>
+        <div class="flex-item desc" v-pre>
+          <pre>
+특별한 파일명을 지정하지 않으면 webpack.config.js 파일이 설정파일로 사용된다.
+Entry, Output, Module, Plugins 4가지 옵션 객체가 핵심이며, 이외에 기타 옵션이 제공된다.
+
+entry
+처음 로드하는 파일을 지정(단일 파일 혹은 여러 파일 지정 가능)
+여러 파일을 로드할 경우 객체 형태로 지정, 단일 파일일 경우 문장열로 파일의 경로를 지정
+entry: __dirname + '/src/index.js'
+entry: {
+  main: __dirname + 'src/index.js',
+  app: __dirname + 'src/app.js'
+}
+
+output
+번들링된 결과물의 출력 방법을 지정.
+output: {
+  path: __dirname + '/public/dist'), // 번들링된 파일의 저장 경로
+  filename: '[name].js', // 생성하는 파일의 파일명을 지정. entry 파일명을 사용할 수도 있음.
+  publicPath: '/dist' // 웹서버에서 이용될 때의 사용경로를 지정
+}
+
+modules프로젝트 내부에서 사용하는 다양한 유형의 모듈을 수행하는 방법을 지정
+rules 옵션에 배열 형태로 규칙을 나열할 수 있다.
+module: {
+  rules: [
+    { 
+      test:/\.js$/, // 정규식을 사용해 해당 규칙이 적용될 파일을 지정한다.
+      loader: 'babel-loader', // 사용할 loader를 지정
+      exclude: /node_modules/ // 해당 규칙을 적용하지 않을 파일명의 정규식 패턴을 지정
+    }
+  ]
+}
+
+plugins
+번들링중 사용자가 지정한 작업을 추가할 수 있는 기능을 제공
+plugins: [
+  new webpack.optimize.UglifyJsPlugin()
+]
+        </div>
+
+        <div class="flex-item title">간단한 구성 예제</div>
+        <div class="flex-item desc" v-pre>
+          <pre>
+$ npm install -g webpack
+$ npm install --save-dev babel babel-core babel-loader babel-preset-es2015
+
+webpack.config.js
+var webpack = require('webpack');
+module.exports = {
+  entry: {
+    main: __dirname + '/src/index.js'
+  },
+  output: {
+    path: __dirname + '/public/dist/',
+    filename: '[name].js',
+    publicPath: '/dist'
+  },
+  module: {
+    rules: [{
+      test: /\.js$/,
+      loader: 'babel-loader',
+      exclude: /node_modules/
+    }]
+  },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin()
+  ]
+}
+
+$ webpack
+혹은 package.json 에서 scripts 속성에
+"build": "webpack"
+추가한 후
+$ npm run build
+          </pre>
+        </div>
+
+        <div class="flex-item title">Webpack 개발 서버 설정</div>
+        <div class="flex-item desc" v-pre>
+          <pre>
+개발 중 코드가 변경될 때마다 매번 새롭게 webpack 명령을 수행하는 것은 불편하다.
+코드 변경 즉시 브라우저 화면에 반영되도록 Webpack 개발 서버(webpack-dev-server)를 사용할 수 있다.
+Webpack 개발 서버는 Node.js와 express 프레임워크를 기반으로 작동하는 개발용 서버.
+자체적으로 HMR(Hot Module Replacment) 기능을 제공하기 때문에 개발 생산성 향상.
+
+$ npm install --save-dev webpack-dev-server
+
+package.json scripts 속성에 다음을 추가
+"start": "node_modules/.bin/webpack-dev-server --open --hot"
+open 옵션은 개발서버가 기동되면 브라우저가 열리도록 한다.
+hot은 HMR을 사용하는 옵션.
+
+webpack.config.js 속성에 다음을 추가
+devServer: {
+  contentBase: './public/', // 웹서버 루트로 지정할 디렉터리 경로. 생략시 프로젝트 디렉토리가 지정.
+  port: 3000, // 서버가 사용할 포트
+  historyApiFallback: true // 브라우저에서 이전상태로 이동할 때 URI가 존재하지 않으면 404에러가 발생하는데 이러한 경우에 기본페이지(index.html)로 이동을 자동화 시킬지 설정.
+}
+
+** 다음 에러시 https://github.com/joeeames/WebpackFundamentalsCourse/issues/3 참고
+ERROR in [번들명].js from UglifyJs
+Unexpected token: name (urlParts) [main.js:4414,4]
+          </pre>
+        </div>
+
+        <div class="flex-item title">보일러 플레이트</div>
+        <div class="flex-item desc" v-pre>
+          <pre>
+$ vue init webpack-simple wepackproject
+$ cd wepackproject
+$ npm install
+
+cross-env
+여러 플랫폼에 걸쳐서 환경변수를 설정하고 사용하는 스크립트를 실행한다
+if (process.env.NODE_ENV === 'production') {}
+
+css-loader
+컴포넌트에서 css 파일을 파일명을 이용해 직접 import 구문으로 로드하여 사용하는 방법을 제공.
+import된 css 파일에 정의된 클래스는 객체처럼 이용할 수 있다.
+
+file-loader
+정적 자원(이미지 등)을 import 구문을 이용해 코드로 로드할 수 있다.
+로드된 파일은 Webpack에 의해 번들링되니다.
+번들링될 때 파일명에 MD5해시값을 적용할 수 있다.
+
+vue-loader
+확장자가 .vue인 단일 파일 컴포넌트 파일을 트랜스파일하고 로드하는 기능을 수행.
+
+vue-template-compoiler
+Vue 컴포넌트 내부의 템플릿 문자열을 트랜스파일하는 기능을 수행.
+          </pre>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="Component심화">
+      <div class="flex-container">
+        <div class="flex-item title">단일 파일 컴포넌트</div>
+        <div class="flex-item desc" v-pre>
+          <pre>
+전역 수준 컴포넌트의 몇가지 문제점
+빌드 단계가 없어 최신 자바스크립트 문법을 사용할 수 없다.
+css를 지원하지 않아 빌드와 모듈화를 지원하지 않는다.
+여러개의 &lt;template/> 태그가 작성되어 식별하기 어렵다.
+
+전역 컴포넌트와 단일 컴포넌트 차이
+&lt;template>에는 id를 부여하지 않는다.
+&lt;script>에는 Vue 컴포넌트의 template을 지정하지 않으며, Vue.component()로 이름과 template 속성을 지정하지 않는다.
+반면에 name 속성을 지정 할 수 있으며, 반드시 객체를 export 해야 한다.
+컴포넌트에서 사용할 스타일은 &lt;style> 내부에 작성해야한다.
+          </pre>
+        </div>
+
+        <div class="flex-item title">컴포넌트에서의 스타일</div>
+        <div class="flex-item desc" v-pre>
+          <pre>
+특정 컴포넌트만의 스타일을 지정하려면 범위 CSS(Scoped CSS)와 CSS 모듈(CSS Module)의 두가지 방법을 사용할 수 있다.
+
+Scoped CSS
+&lt;style scoped> style태그에 scoped 속성을 부여한다.
+
+주의사항
+1.특성 선택자를 사용하기 때문에 브라우저에서 스타일을 적용하는 속도가 느리다.
+그렇기 때문에 속도가 빠른 id 선택자, class 선택자, tag 선택자로 요소를 선택해 스타일을 적용해야 한다.
+2.하위 컴포넌트에도 반영된다.
+
+CSS Module
+&lt;style module> style태그에 module 속성을 부여한다.
+스타일을 마치 객체처럼 다룰 수 있게 해준다.
+template에서 v-bind:class를 통해서 $style로 style에 접근한다.
+여러 스타일을 적용할 경우 배열형태로 나타낸다.
+
+&lt;template>
+  &lt;div>
+    &lt;button v-bind:class="$style.hand"> CSS Module을 적용한 버튼 &lt;/button>
+    &lt;div :class="[$style.box, $style.border]">Hello World&lt;/div>
+  &lt;/div>
+&lt;/template>
+&lt;style module>
+.hand { cursor:pointer; background-color:purple; color:yellow; }
+.box { width:100px; height:100px; background-color:aqua; }
+.border { border:solid 1px orange; }
+&lt;/style>
+          </pre>
+        </div>
+
+        <div class="flex-item title">slot</div>
+        <div class="flex-item desc" v-pre>
+          <pre>
+props를 이용하여 자식에게 내용을 전달할 수 있다.
+하지만 전달할 내용이 복잡한 html 구조라면 어떨까?
+상당히 불편할 것이다.
+이것을 쉽게 전달할 수 있는 기능이 slot이다.
+
+자식 컴포넌트
+아래의 slot 태그는 부모로 부터 받아 내용이 적용된다.
+header와 footer는 보간자로 porps를 통해서 전달받는 형태로 slot과 차이를 볼 수 있다.
+&lt;template>
+  &lt;div class="container">
+    &lt;div class="header">{{headerText}}&lt;/div>
+    &lt;div class="content">
+      &lt;slot>&lt;/slot>
+    &lt;/div>
+    &lt;div class="footer">{{footerText}}&lt;/div>
+  &lt;/div>
+&lt;/template>
+
+부모가 자식 컴포넌트를 사용할 때 컴포넌트 태그를 사용한다.
+그 태그 안에 html 구조를 작성하면 자식 컴포넌트의 slot 태그 안에 장착된다.
+&lt;speech-box :headerText="A.header" :footerText="A.footer">
+  &lt;div>
+    &lt;p>
+      {{A.message}}
+    &lt;/p>
+  &lt;/div>
+&lt;/speech-box>
+export default { name: 'app', components : { SpeechBox }, ... }
+
+named slot
+위의 예제는 하나의 slot만 가진 컴포넌트이다.
+2개 이상이라면 명명된 slot을 사용해서 내용을 별도로 지정받아 장착할 수 있다.
+
+자식 컴포넌트 템플릿
+&lt;slot name="menu">&lt;/slot>
+&lt;slot name="content">&lt;/slot>
+
+부모 컴포넌트 템플릿
+&lt;layout>
+  &lt;ul slot="menu">...&lt;/ul>
+  &lt;div slot="content">...&lt;/div>
+&lt;/layout>
+export default { name: 'app', components : { layout }, ... }
+
+만약 부모 데이터를 이용해 slot에 들어갈 내용을 만들어야 한다면
+부모 컴포넌트 템플릿에서 data에 접근해서 만들면 된다.
+
+scoped slot
+지금까지는 부모에서 자식에게 html을 전달하는 slot이었다.
+반대로 자식으로 부터 부모의 html 구조가 변경되야 한다면?
+정확히 말하면 부모로 부터 받은 slot(html 구조)가 자식의 데이터로 인해 동적으로 변경하려할 때 사용한다.
+
+자식 컴포넌트 템플릿
+slot 속성에 부모에게 전달한 내용을 바인딩해준다.
+&lt;slot name="type1" :cx="x" :cy="y">&lt;/slot>
+&lt;slot name="type2" :cx="x" :cy="y">&lt;/slot>
+data() { return {x: 4, y: 5} }
+
+부모 컴포넌트 템플릿
+template 태그를 만들고 그 안에 scope 속성을 정의한다.
+scope 이름을 통해서 자식으로 부터 전달받은 내용에 접근할 수 있다.
+&lt;child>
+  &lt;template slot="type1" scope="p1">
+    &lt;div>{{p1.cx }} + {{p1.cy}} = {{ parseInt(p1.cx) + parseInt(p1.cy) }}&lt;/div>
+  &lt;/template>
+  &lt;template slot="type2" scope="p2">
+    &lt;div>{{p2.cx }} 더하기 {{p2.cy}} 는 {{ parseInt(p2.cx) + parseInt(p2.cy) }}입니다.&lt;/div>
+  &lt;/template>
+&lt;/child>
+          </pre>
+        </div>
+
+        <div class="flex-item title">동적 컴포넌트</div>
+        <div class="flex-item desc" v-pre>
+          <pre>
+component 태그는 dom 구조가 거의 동일하지만
+data에 의해서 보여줄 뷰와 처리 로직이 다를 경우
+compoenent 태그의 is 속성으로 분기처주는 방식을 이용하면 좋다.
+만약 data에 의해서 보여줄 뷰만 다르다면 같은 컴포넌트를 사용하면 되겠다.
+
+아래와 같이 component 태그에 is 속성에 바인딩 해주면
+동적으로 컴포넌트가 변한다.
+&lt;a href="#" @click="changeMenu('home')">home&lt;/a>
+&lt;a href="#" @click="changeMenu('about')">about&lt;/a>
+
+&lt;keep-alive>
+  &lt;component v-bind:is="currentView">&lt;/component>
+&lt;/keep-alive>
+export default {
+  components : { Home, About, Contact },
+  data() {
+    return { currentView : 'home' }
+  },
+  methods : {
+    changeMenu(view) {
+      this.currentView = view;
+    }
+  }
+}
+
+keep-alive 태그
+컴포넌트가 호출될 때마다 갱신되는데 
+만약 정적 파일이라 캐싱으로 불러오고 싶다면 keep-alive 태그를 사용한다.
+
+만약 특정 컴포넌트만 keep-alive하고 싶다면
+include, exclude 속성을 부여해서 컴포넌트의 name 속성을 적어주면된다.
+참고로 컴포넌트 name 속성은 대소문자를 구분하지 않는다.
+&lt;keep-alive include="about,home">
+export default { name: 'home' }
+
+component is 속성
+is속성에 Vue 전역에 등록된 컴포넌트 이름을 넣으면 해당하는 vue 컴포넌트가 장착된다.
+          </pre>
+        </div>
+
+        <div class="flex-item title">재귀 컴포넌트</div>
+        <div class="flex-item desc" v-pre>
+          <pre>
+자기 자신 컴포넌트를 재귀적으로 호출하는 것을 말한다.
+주의할 점은 name 속성을 꼭 지정해야한다.
+&lt;template>
+  &lt;ul>
+    &lt;li v-for="s in subs" v-bind:class="s.type">
+      {{s.name}}
+      &lt;tree :subs="s.subs">&lt;/tree>
+    &lt;/li>
+  &lt;/ul>
+&lt;/template>
+
+&lt;script>
+  export default {
+    name: 'tree', // template에서 이 이름의 태그를 작성해서 재귀한다.
+    props: ['subs']
+  }
+&lt;/script>
+
+위의 예제에서 부모로 받는 subs 데이터 역시 재귀적으로 subs가 들어 있는 구조다.
+{
+  name : "(주) OpenSG", type:"company", 
+  subs : [
+    { name: "SI 사업부", type:"division", 
+      subs : [
+        { name: "SI 1팀", type:"team" },
+        { name: "SI 2팀", type:"team" }
+      ] 
+    },
+    :
+          </pre>
+        </div>
+      </div>
+    </div>
+    <div id="Axios">
+      <div class="flex-container">
+        <div class="flex-item title"></div>
+        <div class="flex-item desc" v-pre>
+          <pre>
+          </pre>
+        </div>
+      </div>
+    </div>
   </div>
 
 	<script type="text/javascript">
@@ -643,12 +1233,11 @@ methods : {
       el: '#leftSideContainer',
       data: leftMenuModel,
       created: function () {
-        this.contentChange(5)
+        this.contentChange(div.length - 1)
       },
       computed: {
-        test1: function () { alert();
+        test1: function () {
           this.test = this.test;
-
         }
       },
       methods: {
