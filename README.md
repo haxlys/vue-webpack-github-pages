@@ -1,8 +1,8 @@
-# haxlys.github.io
+# vue-webpack-github-pages
 
-> A Vue.js project
+> vue webpack-simple 프로젝트를 사용한 github pages 만들기
 
-## Build Setup
+## Getting Started
 
 ``` bash
 # create github-pages repository
@@ -30,4 +30,3 @@ npm run build
 git push origin BRANCH
 ```
 
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
